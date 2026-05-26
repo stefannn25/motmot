@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story &bull; A Cozy Scrapbook</title>
+  <!-- Google Fonts for premium serif (Playfair Display) and handwriting (Caveat) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Floating Lily Canvas Background -->
+  <canvas id="lily-canvas"></canvas>
+
+  <!-- 1. Full-Screen Entrance Overlay -->
+  <div id="entrance-overlay">
+    <div class="entrance-card">
+      <div class="wax-seal-wrapper">
+        <div class="wax-seal">
+          <svg viewBox="0 0 100 100" width="80" height="80">
+            <circle cx="50" cy="50" r="40" fill="#E8C5C8" stroke="#d4abb0" stroke-width="2" />
+            <path d="M50,25 C35,25 35,45 50,60 C65,45 65,25 50,25 Z" fill="#ffffff" opacity="0.6" />
+            <path d="M50,30 C40,30 40,46 50,57 C60,46 60,30 50,30 Z" fill="#E8C5C8" />
+          </svg>
+        </div>
+      </div>
+      <h1 class="serif-title">ellisa bernal</h1>
+      <p class="handwritten-subtitle">open me</p>
+      <button id="entrance-btn" class="scrapbook-btn">open with love</button>
+    </div>
+  </div>
+
+  <!-- Main Scrapbook Content Wrapper (hidden initially or under the overlay) -->
+  <div id="main-content" class="fade-in-hidden">
+
+    <!-- 2. Sticky Header with Custom Music Player -->
+    <header class="music-header">
+      <div class="header-inner">
+        <div class="scrapbook-logo">
+          <span class="logo-heart">♥</span>
+          <span class="serif-title">mini time capsule</span>
+        </div>
+
+        <!-- Custom Music Player -->
+        <div class="custom-player">
+          <div class="track-info">
+            <span class="track-status handwritten">now playing:</span>
+            <!-- USER: Change the default track title here -->
+            <span id="current-track-title" class="track-name Quicksand-font">Warm Cozy Melodies</span>
+          </div>
+          <div class="player-controls">
+            <!-- Skip Backward Button (Rewinds current song or goes back) -->
+            <button id="prev-btn" class="player-btn" aria-label="Previous Track">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M6 6h2v12H6V6zm3.5 6L18 6v12l-8.5-6z" fill="currentColor" />
+              </svg>
+            </button>
+            <!-- Play/Pause Button -->
+            <button id="play-btn" class="player-btn play-active" aria-label="Play/Pause">
+              <!-- Play Icon -->
+              <svg class="play-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M8 5v14l11-7z" fill="currentColor" />
+              </svg>
+              <!-- Pause Icon -->
+              <svg class="pause-icon hidden" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor" />
+              </svg>
+            </button>
+            <!-- Skip Forward Button -->
+            <button id="next-btn" class="player-btn" aria-label="Next Track">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M6 18V6l8.5 6L6 18zm9-12h2v12h-2V6z" fill="currentColor" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Progress Bar -->
+      <div class="player-progress-container">
+        <div id="player-progress" class="player-progress-bar"></div>
+      </div>
+    </header>
+
+    <!-- HTML5 Audio Component (Hidden) -->
+    <audio id="bg-audio"></audio>
+
+    <!-- Scrapbook Main Container -->
+    <main class="scrapbook-body">
+
+      <!-- Intro Section -->
+      <section class="scrapbook-section intro-section">
+        <div class="paper-sheet main-intro">
+          <h2 class="serif-title section-title">to ellisa.</h2>
+          <p class="scrapbook-text">
+            hi baby. happy 27th monthsary! i hope you'll like this little website i made for you hehe. i love you!
+            enjoyyyy!
+          </p>
+          <div class="decorations">
+            <span class="deco-leaf">🍃</span>
+            <span class="deco-heart">🌸</span>
+            <span class="deco-leaf">🍃</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Scratch-to-Reveal Memory Section -->
+      <section class="scrapbook-section scratch-section">
+        <div class="polaroid-frame scratch-polaroid">
+          <div class="scratch-container-outer">
+            <!-- Revealed Content (The video loop hidden underneath) -->
+            <div class="scratch-revealed-content">
+              <!-- USER: Replace the first source src with your secret video path, e.g., assets/memory_video.mp4 -->
+              <video id="revealed-video" loop muted playsinline class="polaroid-img" style="object-fit: cover;">
+                <source src="assets/memory_video.mp4" type="video/mp4">
+                <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0227e3dc2b2dc5f7e6f0302b1f7c00e&profile_id=139&oauth2_token_id=57447761" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <!-- Canvas Overlay (The scratching cover layer) -->
+            <canvas id="scratch-canvas" width="400" height="400"></canvas>
+
+            <div class="scratch-instruction-overlay">
+              <span class="handwritten instruction-text">scratch to reveal...</span>
+            </div>
+          </div>
+          <div class="polaroid-caption">
+            <p class="handwritten-caption">our first dance together♥</p>
+            <p class="secret-note hidden-note">
+              <!-- USER: Customize this hidden message -->
+              "im starting with this because i love this picture so much. this single picture shows so much love and
+              adoration we have for each other."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Interactive Envelopes Section (3 Letters) -->
+      <section class="scrapbook-section letters-section">
+        <h2 class="serif-title section-title text-center">top three moments</h2>
+        <p class="section-desc handwritten text-center">i'll let you guess what this one is</p>
+
+        <div class="envelopes-grid">
+
+          <!-- Envelope 1 -->
+          <div class="envelope-wrapper" id="env-wrapper-1">
+            <div class="envelope" id="envelope-1">
+              <div class="envelope-flap"></div>
+              <div class="envelope-pocket"></div>
+
+              <!-- Letter Card inside -->
+              <div class="letter-card">
+                <div class="letter-inner">
+                  <div class="letter-header">
+                    <span class="letter-date">march 2026</span>
+                  </div>
+                  <!-- USER: Replace this image with a romantic picture, e.g., assets/letter_photo1.jpeg -->
+                  <div class="letter-polaroid">
+                    <img src="assets/letter_photo1.jpeg" alt="Memory Photo 1" class="letter-img"
+                      onerror="this.src='https://placehold.co/400x400/FAF6F0/4A3E3D?text=A+Cozy+Moment';">
+                    <p class="polaroid-label handwritten">hehe</p>
+                  </div>
+                  <div class="letter-text-content">
+                    <h3 class="serif-title letter-title">to my happy pill</h3>
+                    <p class="handwritten letter-body">
+                      <!-- USER: Customize your letter content here -->
+                      i really love this photo. superrrr cute mo dito. and the way u pose here shows how much ur
+                      presence makes me so happy. you make me the happiest girl ever.
+                    </p>
+                    <p class="handwritten letter-signature">yours truly, <br>Me</p>
+                  </div>
+                  <button class="close-letter-btn">Fold back &times;</button>
+                </div>
+              </div>
+            </div>
+            <div class="envelope-shadow"></div>
+            <span class="envelope-label handwritten">For the cozy days...</span>
+          </div>
+
+          <!-- Envelope 2 -->
+          <div class="envelope-wrapper" id="env-wrapper-2">
+            <div class="envelope" id="envelope-2">
+              <div class="envelope-flap"></div>
+              <div class="envelope-pocket"></div>
+
+              <!-- Letter Card inside -->
+              <div class="letter-card">
+                <div class="letter-inner">
+                  <div class="letter-header">
+                    <span class="letter-date">january 2026</span>
+                  </div>
+                  <!-- USER: Replace this image with a romantic picture, e.g., assets/letter_photo2.jpeg -->
+                  <div class="letter-polaroid">
+                    <img src="assets/letter_photo2.jpeg" alt="Memory Photo 2" class="letter-img"
+                      onerror="this.src='https://placehold.co/400x400/FAF6F0/4A3E3D?text=Warm+Hearts';">
+                    <p class="polaroid-label handwritten">unboxing....</p>
+                  </div>
+                  <div class="letter-text-content">
+                    <h3 class="serif-title letter-title">our first night together</h3>
+                    <p class="handwritten letter-body">
+                      <!-- USER: Customize your letter content here -->
+                      this first night together in baguio will forever live in my heart. i love this moment so much,
+                      it's such a special "first for me" because a lot of our firsts together happened on that night.
+                      i wish the night went longer that night. i am excited to spend our first time together here naman
+                      sa cauayan hehe. i love you!
+                    </p>
+                    <p class="handwritten letter-signature">With love, <br>Me</p>
+                  </div>
+                  <button class="close-letter-btn">Fold back &times;</button>
+                </div>
+              </div>
+            </div>
+            <div class="envelope-shadow"></div>
+            <span class="envelope-label handwritten">For the laughs...</span>
+          </div>
+
+          <!-- Envelope 3 -->
+          <div class="envelope-wrapper" id="env-wrapper-3">
+            <div class="envelope" id="envelope-3">
+              <div class="envelope-flap"></div>
+              <div class="envelope-pocket"></div>
+
+              <!-- Letter Card inside -->
+              <div class="letter-card">
+                <div class="letter-inner">
+                  <div class="letter-header">
+                    <span class="letter-date">january 2026</span>
+                  </div>
+                  <!-- USER: Replace this image with a romantic picture, e.g., assets/letter_photo3.jpeg -->
+                  <div class="letter-polaroid">
+                    <img src="assets/letter_photo3.jpeg" alt="Memory Photo 3" class="letter-img"
+                      onerror="this.src='https://placehold.co/400x400/FAF6F0/4A3E3D?text=Holding+Hands';">
+                    <p class="polaroid-label handwritten">pestoooo</p>
+                  </div>
+                  <div class="letter-text-content">
+                    <h3 class="serif-title letter-title">a romantic dinner...</h3>
+                    <p class="handwritten letter-body">
+                      <!-- USER: Customize your letter content here -->
+                      this night is really special. it's our last dinner together in that trip. i cooked you pesto
+                      pasta, which you really lovedddd? and we had a dance after that and a party after. i love you so
+                      much.
+                    </p>
+                    <p class="handwritten letter-signature">Forever yours, <br>Me</p>
+                  </div>
+                  <button class="close-letter-btn">Fold back &times;</button>
+                </div>
+              </div>
+            </div>
+            <div class="envelope-shadow"></div>
+            <span class="envelope-label handwritten">For our future...</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Scrapbook Footer -->
+      <footer class="scrapbook-footer">
+        <p class="handwritten footer-heart">made by ur one and only...</p>
+        <p class="footer-note Quicksand-font">&bull; happy 7th month baby. &bull;</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Global Modal for Expanded Letters -->
+  <div id="global-letter-modal">
+    <div class="modal-letter-card">
+      <button class="modal-close-btn">&times;</button>
+      <div id="modal-letter-content"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

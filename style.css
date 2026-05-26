@@ -1,0 +1,965 @@
+/* ==========================================================================
+   Cozy Romantic Scrapbook Stylesheet
+   ========================================================================== */
+
+/* 1. Global Styles & Variables */
+:root {
+  --bg-color: #FAF6F0;          /* Warm Ivory/Cream */
+  --paper-color: #FFFDF9;       /* Soft White for Sheets */
+  --blush-pink: #E8C5C8;        /* Romantic Blush Pink */
+  --blush-light: #F5E5E6;       /* Very Soft Pink */
+  --sage-green: #BACBB6;        /* Sage Green Accent */
+  --sage-light: #E2EFE0;        /* Soft Sage Background */
+  --text-dark: #4A3E3D;         /* Soft Sepia Charcoal */
+  --text-muted: #7D6C6A;        /* Muted brown-gray */
+  --gold-accent: #D2B48C;       /* Warm Tan/Gold */
+  --shadow-color: rgba(74, 62, 61, 0.12);
+  
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-handwritten: 'Caveat', cursive;
+  --font-sans: 'Quicksand', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar for Scrapbook Vibe */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blush-pink);
+  border-radius: 5px;
+  border: 2px solid var(--bg-color);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Typography Utilities */
+.serif-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.handwritten {
+  font-family: var(--font-handwritten);
+  font-size: 1.4rem;
+  line-height: 1.3;
+}
+
+.Quicksand-font {
+  font-family: var(--font-sans);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Canvas Background for Floating Lilies */
+#lily-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none; /* Make sure elements underneath are clickable */
+}
+
+/* 2. Entrance Overlay */
+#entrance-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  background-image: radial-gradient(var(--paper-color) 30%, transparent 31%);
+  background-size: 24px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), visibility 1s;
+}
+
+#entrance-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.entrance-card {
+  background: var(--paper-color);
+  border: 1px dashed var(--blush-pink);
+  padding: 3rem 2rem;
+  border-radius: 24px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.entrance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--blush-pink), var(--sage-green), var(--blush-pink));
+}
+
+.wax-seal-wrapper {
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.wax-seal {
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.wax-seal:hover {
+  transform: scale(1.05);
+}
+
+.entrance-card h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.entrance-card p {
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.scrapbook-btn {
+  background-color: var(--blush-pink);
+  color: var(--paper-color);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.scrapbook-btn:hover {
+  background-color: #d79da1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+.scrapbook-btn:active {
+  transform: translateY(0);
+}
+
+/* Fade-in Animation for Main Content */
+.fade-in-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in-hidden.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3. Sticky Music Header */
+.music-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: rgba(250, 246, 240, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--blush-light);
+  box-shadow: 0 2px 10px rgba(74, 62, 61, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.scrapbook-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-heart {
+  color: var(--blush-pink);
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.scrapbook-logo .serif-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+/* Custom Player Vibe */
+.custom-player {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--paper-color);
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid var(--blush-light);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 2px 5px var(--shadow-color);
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.track-status {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.track-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.player-btn:hover {
+  color: var(--blush-pink);
+  background-color: var(--bg-color);
+}
+
+.player-btn.play-active {
+  color: var(--blush-pink);
+  transform: scale(1.1);
+}
+
+.player-progress-container {
+  width: 100%;
+  height: 3px;
+  background-color: var(--blush-light);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.player-progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--blush-pink);
+  transition: width 0.1s linear;
+}
+
+/* Helper to hide play/pause svgs */
+.hidden {
+  display: none !important;
+}
+
+/* 4. Scrapbook Layout */
+.scrapbook-body {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem 5rem 1rem;
+}
+
+.scrapbook-section {
+  margin-bottom: 5rem;
+}
+
+/* Paper Sheet Styling (Warm Notebook Style) */
+.paper-sheet {
+  background: var(--paper-color);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px var(--shadow-color);
+  border-left: 8px solid var(--sage-green);
+  position: relative;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 100% 28px;
+  line-height: 28px; /* Alignment with paper lines */
+}
+
+/* Little masking for scrapbook feel */
+.paper-sheet::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 25px;
+  height: 25px;
+  background-image: radial-gradient(circle, var(--blush-pink) 20%, transparent 25%);
+  background-size: 10px 10px;
+  opacity: 0.4;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60%;
+  height: 2px;
+  background-color: var(--blush-pink);
+}
+
+.scrapbook-text {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+.decorations {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+/* 5. Polaroid Frame Styles (For memory and letters) */
+.polaroid-frame {
+  background: var(--paper-color);
+  padding: 1rem 1rem 2rem 1rem;
+  box-shadow: 0 8px 20px var(--shadow-color);
+  border: 1px solid rgba(74, 62, 61, 0.05);
+  border-radius: 4px;
+  transform: rotate(-1.5deg);
+  transition: transform 0.3s ease;
+  max-width: 100%;
+}
+
+.polaroid-frame:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.polaroid-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.polaroid-caption {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.handwritten-caption {
+  font-family: var(--font-handwritten);
+  font-size: 1.6rem;
+  color: var(--text-dark);
+}
+
+/* 6. Scratch Card Section */
+.scratch-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scratch-polaroid {
+  max-width: 420px;
+  width: 100%;
+  padding: 1.2rem 1.2rem 2.5rem 1.2rem;
+  transform: rotate(1deg);
+}
+
+.scratch-container-outer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: crosshair;
+  background-color: #eee;
+}
+
+.scratch-revealed-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  touch-action: none; /* Prevents scrolling while scratching on mobile */
+  transition: opacity 0.5s ease;
+}
+
+.scratch-instruction-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  background-color: rgba(0,0,0,0.02);
+  transition: opacity 0.4s ease;
+}
+
+.instruction-text {
+  font-size: 1.8rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(74, 62, 61, 0.5);
+  background-color: rgba(74, 62, 61, 0.25);
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(1px);
+}
+
+.secret-note {
+  font-family: var(--font-handwritten);
+  font-size: 1.5rem;
+  color: var(--blush-pink);
+  margin-top: 0.8rem;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 1s ease, max-height 1s ease, margin-top 0.5s ease;
+}
+
+.secret-note.revealed {
+  opacity: 1;
+  max-height: 150px;
+  margin-top: 1rem;
+}
+
+/* 7. Interactive Envelopes Grid */
+.letters-section {
+  position: relative;
+}
+
+.section-desc {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+.envelopes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem 2rem;
+  justify-items: center;
+  margin-top: 2rem;
+}
+
+/* Envelope Container and Shadow */
+.envelope-wrapper {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  perspective: 1000px; /* Enable 3D transitions */
+  margin-bottom: 2rem;
+}
+
+.envelope-label {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.envelope-wrapper.open .envelope-label {
+  opacity: 0; /* Hide label when open to keep focus on letter */
+}
+
+/* The Envelope Object */
+.envelope {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--blush-light);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease, z-index 0.5s;
+  z-index: 10;
+  border: 1px solid rgba(232, 197, 200, 0.5);
+}
+
+.envelope-wrapper:hover .envelope {
+  transform: translateY(-5px);
+}
+
+/* Envelope shadow behind */
+.envelope-shadow {
+  position: absolute;
+  bottom: -15px;
+  left: 5%;
+  width: 90%;
+  height: 15px;
+  background: radial-gradient(ellipse at center, rgba(74, 62, 61, 0.15) 0%, transparent 70%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Envelope Top Flap */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 100px solid var(--blush-pink);
+  transform-origin: top;
+  transition: transform 0.4s ease, border-top-color 0.4s, z-index 0.4s;
+  z-index: 25; /* Sits above the pocket and card initially */
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05));
+}
+
+/* Envelope Pocket (Front cover) */
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Draw the visual folds of the pocket using a clip-path polygon */
+  background-color: var(--blush-light);
+  clip-path: polygon(0 35%, 50% 65%, 100% 35%, 100% 100%, 0 100%);
+  border-radius: 0 0 8px 8px;
+  z-index: 20; /* Sits in front of the letter */
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.4);
+}
+
+/* Envelope pocket side borders to look double folded */
+.envelope-pocket::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fcebeb;
+  clip-path: polygon(0 35%, 50% 65%, 0 100%);
+  opacity: 0.7;
+}
+
+.envelope-pocket::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fcebeb;
+  clip-path: polygon(100% 35%, 50% 65%, 100% 100%);
+  opacity: 0.7;
+}
+
+/* Letter Card inside envelope */
+.letter-card {
+  position: absolute;
+  bottom: 4px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 15px);
+  background: var(--paper-color);
+  border-radius: 4px;
+  padding: 1.5rem;
+  z-index: 15; /* Sits between back envelope and front pocket */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.6s, opacity 0.5s;
+  overflow: hidden;
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+.letter-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Detail styles of opened letter */
+.letter-header {
+  border-bottom: 1px dashed var(--blush-pink);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.letter-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.letter-polaroid {
+  display: none; /* Hidden when inside envelope, shown when fully opened */
+  background: #fff;
+  padding: 0.6rem;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  margin-bottom: 1.2rem;
+  transform: rotate(-2deg);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.letter-img {
+  width: 100%;
+  aspect-ratio: 1.2 / 1;
+  object-fit: cover;
+}
+
+.polaroid-label {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 0.4rem;
+  color: var(--text-dark);
+}
+
+.letter-text-content {
+  flex-grow: 1;
+}
+
+.letter-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.letter-body {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+  white-space: pre-line;
+}
+
+.letter-signature {
+  font-size: 1.2rem;
+  text-align: right;
+  color: var(--text-dark);
+}
+
+.close-letter-btn {
+  display: none; /* Only visible when open */
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--blush-pink);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* OPEN ENVELOPE ANIMATION STATES */
+.envelope-wrapper.open {
+  z-index: 100; /* Bring whole wrapper to front */
+}
+
+/* 1. Open the flap */
+.envelope-wrapper.open .envelope-flap {
+  transform: rotateX(180deg);
+  border-top-color: var(--blush-light); /* Change color slightly for back-side of flap */
+  z-index: 5; /* Sit behind card when opened */
+}
+
+/* 2. Slide card up and expand */
+.envelope-wrapper.open .letter-card {
+  z-index: 200; /* Move above everything else */
+  opacity: 1;
+  transform: translateY(-80px); /* Lift out of envelope */
+}
+
+/* Fully expanded style when looking closely at letter */
+.envelope-wrapper.expanded {
+  z-index: 500;
+}
+
+.envelope-wrapper.expanded .letter-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.05);
+  width: 460px;
+  height: auto;
+  max-height: 90vh;
+  max-width: 95vw;
+  box-shadow: 0 15px 40px rgba(74, 62, 61, 0.3);
+  z-index: 600;
+  overflow-y: auto;
+  padding: 2rem;
+  border: 1px solid var(--blush-pink);
+}
+
+.envelope-wrapper.expanded .letter-polaroid {
+  display: block; /* Reveal picture in zoomed mode */
+}
+
+.envelope-wrapper.expanded .close-letter-btn {
+  display: flex;
+  opacity: 1;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  font-size: 1.5rem;
+}
+
+/* Semi-transparent backdrop when expanded */
+.envelope-wrapper::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(74, 62, 61, 0.3);
+  backdrop-filter: blur(4px);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.envelope-wrapper.expanded::after {
+  opacity: 1;
+  pointer-events: auto; /* Intercept clicks on backdrop to close */
+}
+
+/* 8. Scrapbook Footer */
+.scrapbook-footer {
+  text-align: center;
+  padding-top: 4rem;
+  border-top: 1px dashed var(--blush-pink);
+  margin-top: 5rem;
+}
+
+.footer-heart {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+}
+
+.footer-note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  letter-spacing: 2px;
+}
+
+/* 9. Responsive Layouts */
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    padding: 0.6rem 1rem;
+  }
+  
+  .custom-player {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .track-name {
+    max-width: 140px;
+  }
+
+  .paper-sheet {
+    padding: 1.5rem;
+  }
+
+  .envelope-wrapper.expanded .letter-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .envelopes-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* 10. Global Modal for Expanded Letters */
+#global-letter-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(74, 62, 61, 0.45);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+#global-letter-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-letter-card {
+  background: var(--paper-color);
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 480px;
+  max-width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  border: 1px solid var(--blush-pink);
+  box-shadow: 0 20px 50px rgba(74, 62, 61, 0.3);
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#global-letter-modal.active .modal-letter-card {
+  transform: scale(1);
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--blush-pink);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.2s ease, transform 0.2s;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background-color: #d79da1;
+  transform: scale(1.05);
+}
+
+/* Ensure polaroid is visible inside the modal */
+.modal-letter-card .letter-polaroid {
+  display: block !important;
+  margin-bottom: 1.5rem;
+}
+
+/* Custom Scrollbar for Modal content */
+.modal-letter-card::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-letter-card::-webkit-scrollbar-thumb {
+  background: var(--blush-pink);
+  border-radius: 3px;
+}
+
